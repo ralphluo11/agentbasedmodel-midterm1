@@ -4,7 +4,7 @@ from agents import SchellingAgent
 from mesa.datacollection import DataCollector
 
 class SchellingModel(Model):
-    ## Define initiation, requiring all needed parameter inputs
+    ## CHANGE 1: Add parameters for racial group shares and Dissimilarity Index tracking
     def __init__(self, width=30, height=30, density=0.7, 
              desired_share_alike=0.5,
              white_share=0.25, black_share=0.25, 
@@ -19,6 +19,7 @@ class SchellingModel(Model):
         self.height = height
         self.density = density
         self.desired_share_alike = desired_share_alike
+        # CHANGE 2: Store racial group shares and normalize to sum to 1
         shares = [white_share, black_share, hispanic_share, asian_share]
         total = sum(shares)
         if total > 0:
@@ -33,6 +34,7 @@ class SchellingModel(Model):
         ## Place agents randomly around the grid, randomly assigning them to agent types.
         for cont, pos in self.grid.coord_iter():
             if self.random.random() < self.density:
+                # CHANGE 3: Randomly assign agent type based on specified group shares
                 chosen_type = self.random.choices( population=[0,1,2,3], weights=self.group_shares, k=1)[0]
                 self.grid.place_agent(SchellingAgent(self, chosen_type), pos)
 
@@ -43,7 +45,7 @@ class SchellingModel(Model):
                 "share_happy" : lambda m : (m.happy / len(m.agents)) * 100
                 if len(m.agents) > 0
                 else 0,
-                ## MODIFICATION: track Dissimilarity Index for each group
+                # CHANGE 4: Add Dissimilarity Index reporters for each racial group
                 "D_white"   : lambda m: m.dissimilarity(0),
                 "D_black"   : lambda m: m.dissimilarity(1),
                 "D_hispanic": lambda m: m.dissimilarity(2),

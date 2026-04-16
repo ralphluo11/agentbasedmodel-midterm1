@@ -9,12 +9,14 @@ from mesa.visualization.components import AgentPortrayalStyle
 
 ## Define agent portrayal: color, shape, and size
 def agent_portrayal(agent):
+    # CHANGE 5: Update colors to represent 4 racial groups instead of 2
     return AgentPortrayalStyle( color = ("blue" if agent.type == 0 
                     else "orange" if agent.type == 1 
                     else "green" if agent.type == 2 
                     else "red"))
 
 ## Enumerate variable parameters in model: seed, grid dimensions, population density, agent preferences, vision, and relative size of groups.
+# CHANGE 6: Add sliders for racial group shares (white_share, black_share, hispanic_share, asian_share)
 model_params = {
     "seed": {
         "type": "InputText",
@@ -96,6 +98,7 @@ model_params = {
     },
 }
 
+# CHANGE 7: Add components to explain legend, presets, and normalization note
 @solara.component
 def Legend(model):
     solara.Markdown("""
@@ -143,7 +146,7 @@ schelling_model = SchellingModel()
 ## Define happiness over time plot
 HappyPlot = make_plot_component({"share_happy": "tab:green"})
 
-## MODIFICATION: plot Dissimilarity Index over time for all 4 groups
+## CHANGE 8: plot Dissimilarity Index over time for all 4 groups
 DPlot = make_plot_component({
     "D_white": "tab:blue",
     "D_black": "tab:orange",
@@ -157,6 +160,7 @@ SpaceGraph = make_space_component(agent_portrayal, draw_grid=False)
 ## Instantiate page inclusing all components
 page = SolaraViz(
     schelling_model,
+    # change 9: add Dissimilarity Index plot and other explanatory components to page
     components=[SpaceGraph, HappyPlot, NormalizationNote, Legend, CityPresets, DPlot],
     model_params=model_params,
     name="Schelling Segregation Model",
