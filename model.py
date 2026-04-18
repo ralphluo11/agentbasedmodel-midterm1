@@ -59,8 +59,8 @@ class SchellingModel(Model):
         self.happy = 0
         self.agents.shuffle_do("move")
         self.datacollector.collect(self)
-        ## Run model until all agents are happy
-        self.running = self.happy < len(self.agents)
+        ## Modification 99 percent happy condition: model runs until at least 99% of agents are happy
+        self.running = (self.happy / len(self.agents)) < 0.99
     
     ## ============================================================
     ## MODIFICATION: Dissimilarity Index calculation
