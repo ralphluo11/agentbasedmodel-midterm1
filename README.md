@@ -2,7 +2,6 @@
 
 # Multi-Group Schelling Segregation Model with Dissimilarity Index
 
-*Code adapted from the Mesa Examples project. Extended as part of a course assignment on agent-based modeling.*
 
 ## Summary
 
